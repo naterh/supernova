@@ -172,14 +172,16 @@ class SuperNova:
         """
         Prepare credentials for python Client instantiation.
         """
-        creds = dict((rm_prefix(k[0].lower()), k[1]) 
-                    for k in self.prep_nova_creds())
+        creds = dict((rm_prefix(k[0].lower()), k[1])
+                     for k in self.prep_nova_creds())
         if creds.get('auth_system') == 'rackspace':
             creds['auth_plugin'] = rackspace_auth_plugin
         if creds.get('url'):
             creds['auth_url'] = creds.pop('url')
         if creds.get('tenant_name'):
             creds['project_id'] = creds.pop('tenant_name')
+        if creds.get('password'):
+            creds['api_key'] = creds.pop('password')
         return creds
 
 
